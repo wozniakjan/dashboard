@@ -41,8 +41,21 @@ export class Auth {
     private readonly _tokenService: TokenService,
     @Inject(COOKIE_DI_TOKEN) private readonly _cookie: Cookie
   ) {
+    console.log("auth workflow");
     const token = this._getTokenFromQuery();
     const nonce = this.getNonce();
+    console.log(`auth workflow "${token} ${nonce}"`);
+    if (token) {
+        console.log("auth saving cookie");
+        this._cookieService.set(this._cookie.token, token, 1, '/', 'kubermatic-dashboard.kubermatic', false, 'Lax');
+        console.log("auth saving cookie 1");
+        this._cookieService.set(this._cookie.token, token, 1, '/', 'kubermatic-dashboard.kubermatic:8080', false, 'Lax');
+        console.log("auth saving cookie 2");
+        this._cookieService.set(this._cookie.token, token, 1, '/', 'http://kubermatic-dashboard.kubermatic:8080', false, 'Lax');
+        console.log("auth saving cookie 3");
+        this._cookieService.set(this._cookie.token, token, 1, '/', null, false, 'Lax');
+        console.log("auth saving cookie 4");
+    };
     if (!!token && !!nonce) {
       if (this.compareNonceWithToken(token, nonce)) {
         // remove URL fragment with token, so that users can't accidentally copy&paste it and send it to others
@@ -139,6 +152,17 @@ export class Auth {
     const nonceRegExp = /[?&#]nonce=([^&]+)/;
     const nonceStr = nonceRegExp.exec(this.getOIDCProviderURL());
     const minLen = 2;
+    if (nonceStr) {
+        console.log("auth saving cookie");
+        this._cookieService.set(this._cookie.nonce, nonceStr[1], null, '/', 'kubermatic-dashboard.kubermatic', false, 'Lax');
+        console.log("auth saving cookie 1");
+        this._cookieService.set(this._cookie.nonce, nonceStr[1], null, '/', 'kubermatic-dashboard.kubermatic:8080', false, 'Lax');
+        console.log("auth saving cookie 2");
+        this._cookieService.set(this._cookie.nonce, nonceStr[1], null, '/', 'http://kubermatic-dashboard.kubermatic:8080', false, 'Lax');
+        console.log("auth saving cookie 3");
+        this._cookieService.set(this._cookie.nonce, nonceStr[1], null, '/', null, false, 'Lax');
+        console.log("auth saving cookie 4");
+    }
     if (!!nonceStr && nonceStr.length >= minLen && !!nonceStr[1]) {
       this._cookieService.set(this._cookie.nonce, nonceStr[1], null, '/', null, true, 'Lax');
       // localhost is only served via http, though secure cookie is not possible

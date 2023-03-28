@@ -91,6 +91,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Prevent being shown in iframes
 	w.Header().Add("X-Frame-Options", "DENY")
 
+	// Allow CORS
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	r.Header.Add("Access-Control-Allow-Origin", "*")
+
 	// disable caching for the root(index.html) and all config files
 	if r.URL.Path == "/" || isCacheDisabled(r.URL.Path) {
 		// Forces caches to submit the request to the origin server for validation before releasing a cached copy.
@@ -110,6 +114,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	dir := http.Dir("./dist")
 	if _, err := dir.Open(r.URL.Path); err == nil {
 		http.FileServer(dir).ServeHTTP(w, r)
+		// Allow CORS
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		r.Header.Add("Access-Control-Allow-Origin", "*")
 		return
 	}
 

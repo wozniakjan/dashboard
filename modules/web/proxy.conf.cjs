@@ -15,10 +15,10 @@
 const PROXY_CONFIG = [
   {
     context: ['/api/**'],
-    target: 'https://dev.kubermatic.io',
+    target: 'http://kubermatic-api.kubermatic:8080',
     changeOrigin: true,
     headers: {
-      Origin: 'https://dev.kubermatic.io',
+      Origin: 'http://kubermatic-api.kubermatic:8080',
     },
     secure: false,
     ws: true,

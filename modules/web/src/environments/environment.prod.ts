@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const host = window.location.host.replace(/\/+$/, '');
-const protocol = window.location.protocol;
-const wsProtocol = protocol.replace('http', 'ws');
-
 export const environment = {
   name: 'prod',
   production: true,
@@ -23,11 +19,11 @@ export const environment = {
   changelogUrl: '../assets/config/changelog.json',
   gitVersionUrl: '../assets/config/version.json',
   refreshTimeBase: 1000,
-  restRoot: '/api/v1',
-  newRestRoot: '/api/v2',
-  wsRoot: `${wsProtocol}//${host}/api/v1/ws`,
+  restRoot: 'http://kubermatic-api.kubermatic:8080/api/v1',
+  newRestRoot: 'http://kubermatic-api.kubermatic:8080/api/v2',
+  wsRoot: `ws://kubermatic-api.kubermatic:8080/api/v1/ws`,
   avoidWebsockets: false,
-  oidcProviderUrl: `${protocol}//${host}/dex/auth`,
+  oidcProviderUrl: 'http://dex.oauth:5556/dex/auth',
   oidcConnectorId: null,
   animations: true,
 };

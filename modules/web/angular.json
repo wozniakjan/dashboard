@@ -275,7 +275,7 @@
           "options": {
             "browserTarget": "kubermatic:build",
             "proxyConfig": "./proxy.conf.cjs",
-            "port": 8000
+            "port": 8080
           },
           "configurations": {
             "default-ee": {},
